@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+<style>.container{
+  text-align:center;
+  margin-top:23px;
+}
+h1{
+  text-align:center;
+}
+table{
+  margin: auto;
+}
+
+input{
+  font-size:34px;
+  text-align:right;
+  width:auto;
+  border: 5px solid black;
+  border-radius: 21px;
+}
+
+button{
+  font-size:40px;
+  border-radius: 20px;
+  background: chartreuse;
+  width: 102px;
+  height: 58px;
+}
+.ankit{
+  display:inline-block;
+  background: black;
+  padding:23px;
+  border-radius:53px;
+  width:auto;
+  height:auto;
+}
+h3{
+  color:white;
+}
+.history{
+  color:white;
+}</style>
+  <title>Calculator by AnkitSharma</title>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Calculator by AnkitSharma</h1>
+    <div class="ankit">
+      <input type="text" name="screen" id="screen">
+      <table>
+        <tr>
+          <td><button>(</button></td>
+          <td><button>)</button></td>
+          <td><button>AC</button></td>
+          <td><button>%</button></td>
+        </tr>
+        <tr>
+          <td><button>7</button></td>
+          <td><button>8</button></td>
+          <td><button>9</button></td>
+          <td><button>+</button></td>
+        </tr>
+        <tr>
+          <td><button>4</button></td>
+          <td><button>5</button></td>
+          <td><button>6</button></td>
+          <td><button>-</button></td>
+        </tr>
+        <tr>
+          <td><button>1</button></td>
+          <td><button>2</button></td>
+          <td><button>3</button></td>
+          <td><button>*</button></td>
+        </tr>
+        <tr>
+          <td><button>.</button></td>
+          <td><button>0</button></td>
+          <td><button>=</button></td>
+          <td><button>/</button></td>
+        </tr>
+        <tr>
+          <td><button>C</button></td>
+        </tr>
+      </table>
+      <div class="history">
+        <h3>History of calculation</h3>
+        <ul id="history-list"></ul>
+      </div>
+    </div>
+  </div>
+</body>
+
+<script>
+  let screen = document.getElementById('screen');
+  let buttons = document.querySelectorAll('button');
+  let screenValue = '';
+  let resultDisplayed = false;
+  let historyList = document.getElementById('history-list');
+
+  for (let item of buttons) {
+    item.addEventListener('click', (e) => {
+      let buttonText = e.target.innerText;
+      console.log('Button text is ', buttonText);
+      if (resultDisplayed && (buttonText >= '0' && buttonText <= '9' || buttonText === '(')) {
+        // Clear the screen and start a new calculation
+        screenValue = '';
+        screen.value = screenValue;
+        resultDisplayed = false;
+      }
+      if (buttonText === '×') {
+        buttonText = '*';
+        screenValue += buttonText;
+        screen.value = addCommas(screenValue);
+      } else if (buttonText === 'AC') {
+        screenValue = '';
+        screen.value = screenValue;
+      } else if (buttonText === '=') {
+        let result = eval(screenValue);
+        result = addCommas(result);
+        screen.value = result;
+        resultDisplayed = true;
+        addToHistory(screenValue, result);
+      } else if (buttonText === '%') {
+        screenValue += '/100';
+        screen.value = eval(screenValue);
+      } else if (buttonText === 'C') {
+        screenValue = screenValue.slice(0, -1);
+        screen.value = screenValue;
+      } else {
+        screenValue += buttonText;
+        screen.value = addCommas(screenValue);
+      }
+    });
+  }
+
+  function addToHistory(expression, result) {
+    let historyItem = document.createElement('li');
+    historyItem.textContent = `${expression} = ${result}`;
+    historyList.appendChild(historyItem);
+  }
+
+  function addCommas(number) {
+    let parts = number.toString().split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return parts.join('.');
+  }
+</script>
+
+</html>
