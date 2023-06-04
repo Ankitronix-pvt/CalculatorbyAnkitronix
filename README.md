@@ -10,7 +10,7 @@
 - help@ankitronix.rf.gd
 
 # if you want to make any website,app,games,logos or want to edit photos,videos contact me
--contact@ankitronix.rf.gd
+- contact@ankitronix.rf.gd
 
 # Copyright
 
